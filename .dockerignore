@@ -1,0 +1,29 @@
+# Keep the build context small and secrets out of the image.
+.git
+.github
+.claude
+.env
+.env.*
+!.env.example
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.coverage
+coverage.xml
+
+# Frontend artifacts are rebuilt inside the image.
+node_modules
+src/synneon/ux/node_modules
+src/synneon/ux/dist
+
+# Not needed at run time.
+old
+captures
+tests
+agents
+tasks
+data
+docker
+docs

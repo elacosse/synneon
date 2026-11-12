@@ -1,0 +1,4 @@
+# Keep dependency resolution consistent across machines.
+required-version = ">=0.13.7"  # uv.lock uses lockfile revision 5
+# Template default, enable once every locked release is at least 14 days old (after 2026-11-24):
+# exclude-newer = "14 days"

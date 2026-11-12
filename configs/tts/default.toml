@@ -1,0 +1,13 @@
+# Text-to-speech profiles. provider = "openai" | "google". Select with `profile=` on /audio/speak.
+
+[tts.default]
+description = "OpenAI Realtime API voice (the /v1/audio/speech models shut down 2027-01-06)."
+provider = "openai"
+model = "gpt-realtime-2.1-mini"
+voice = "marin" # also: alloy, ash, ballad, coral, echo, sage, shimmer, verse, cedar
+
+[tts.gemini]
+description = "Gemini native TTS via the Interactions API."
+provider = "google"
+model = "gemini-3.8-flash-tts"
+voice = "Kore" # any Gemini prebuilt voice, e.g. Puck, Charon, Zephyr, Aoede

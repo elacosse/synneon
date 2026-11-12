@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier. Do not edit manually.
+_commit: v0.2.4
+_src_path: gh:jlevy/simple-modern-uv
+package_author_email: synneon@example.com
+package_author_name: synneon
+package_description: synneon
+package_github_org: synneon
+package_module: synneon
+package_name: synneon

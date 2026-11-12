@@ -1,0 +1,76 @@
+# Full stack: Redis, Redis Insight, and the SynNeon dashboard (backend + built frontend).
+# No Neon data until a client connects: run `uv run synneon client` on the host (real device, or --mock),
+# or start the containerised mock client with the `mock` profile.
+#
+#   docker compose -f docker/docker-compose.yml up -d --build
+#   docker compose -f docker/docker-compose.yml --profile mock up -d --build
+#
+# Needs a .env file in the repository root with OPENAI_API_KEY (see .env.example).
+# To run only Redis and start the app on the host with uv instead:
+#
+#   docker compose -f docker/docker-compose.yml up -d redis redisinsight
+
+services:
+  synneon:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["synneon", "app", "--host", "0.0.0.0"]
+    # Published on loopback only: the API has no auth and Redis has no password.
+    ports:
+      - "127.0.0.1:8765:8765"
+    env_file:
+      - ../.env
+    environment:
+      # Reach Redis by service name; configs/memory/default.toml points at localhost.
+      SYNNEON_REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import json, urllib.request;
+          r = json.load(urllib.request.urlopen('http://127.0.0.1:8765/health', timeout=3));
+          raise SystemExit(0 if r.get('redis') == 'connected' else 1)
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  # Mock Neon client; only started with `--profile mock`. A real device is easier to reach from the host.
+  neon-mock:
+    profiles: ["mock"]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["synneon", "client", "--mock", "--pupil", "--api-url", "http://synneon:8765"]
+    depends_on:
+      synneon:
+        condition: service_healthy
+
+  redis:
+    image: redis:latest
+    command: redis-server --appendonly yes
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - syn_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    ports:
+      - "127.0.0.1:5540:5540"
+    depends_on:
+      - redis
+
+volumes:
+  syn_redis_data:

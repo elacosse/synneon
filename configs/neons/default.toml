@@ -1,0 +1,43 @@
+# Default configuration for Pupil Labs Neon devices
+[device]
+address = "192.168.1.31"
+port = 8080
+
+[blink]
+double_blink_action = "capture_world_camera_image_with_gaze_annotation" # Action executed on double blink
+double_blink_delta = 0.3 # Max seconds between blinks to register as double
+circle_annotation_radius = 75 # Radius of the gaze circle in the snapshot
+
+
+[calibration] # Gaze screen bounding limits
+min_x = 137.3306427001953
+max_x = 1491.1363525390625
+min_y = -52.44017791748047
+max_y = 1197.32470703125
+
+[gestures.compass]
+threshold = 0.8 # Confidence threshold to trigger
+dwell_time = 0.5 # Minimum seconds held in zone
+cooldown = 1.0 # Minimum seconds between gestures
+smoothing_factor = 0.3 # Exponential moving average smoothing
+sample_time_length = 1.0 # Window size to evaluate gestures
+
+
+[fixation]
+algorithm = "I-DT" # Fixation detection algorithm
+min_duration_ms = 100.0 # Minimum time eyes must stay still
+max_dispersion_pixels = 30.0 # Maximum radius the eye can wander
+
+
+[saliency]
+max_peaks = 5 # Number of top local maxima gaze points to extract
+min_peak_threshold_pct = 0.5 # Ignore peaks weaker than 50% of the maximum
+marker_shape = "circle" # Options: "X", "circle"
+marker_radius = 20 # Visual size of the drawn markers
+gaussian_sigma = 60.0 # Spread of the heatmap foveal hotspots
+colormap = 2 # cv2.COLORMAP_JET is 2
+alpha = 0.6 # Blending opacity on the original image overlay
+
+
+[recording]
+max_duration_s = -1.0 # Auto-stop recording timeout in seconds (-1.0 for manual stop only)

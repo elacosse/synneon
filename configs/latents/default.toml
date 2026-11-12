@@ -1,0 +1,11 @@
+[emotion]
+min = 0.0
+max = 1.0
+thresholds = [
+    { min = 0.05, max = 0.2, adjective = "slightly" },
+    { min = 0.2, max = 0.4, adjective = "somewhat" },
+    { min = 0.4, max = 0.6, adjective = "moderately" },
+    { min = 0.6, max = 0.8, adjective = "very" },
+    { min = 0.8, max = 1.0, adjective = "extremely" }
+]
+tts_style = "Speak in a {adjective} {emotion} tone." # delivery hint passed to the TTS model (not spoken)

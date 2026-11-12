@@ -1,0 +1,18 @@
+# Speech-to-text profiles. provider = "openai" | "google". Select with `profile=` on /audio/transcribe*.
+
+[stt.default]
+provider = "openai"
+model = "gpt-transcribe"
+languages = ["en"]
+prompt = "Ambient conversation around an AAC user, recorded on Neon eye-tracking glasses. Transcribe verbatim, including disfluencies and false starts."
+
+[stt.gemini]
+provider = "google"
+model = "gemini-3.8-flash"
+languages = ["en"]
+thinking = "low"
+prompt = """
+Transcribe the audio verbatim. Preserve disfluencies, false starts and interruptions. Label each distinct speaker
+consistently as SPEAKER_1, SPEAKER_2, ... and emit one segment per speaker turn. Do not add commentary, summaries or
+interpretations. Mark unclear speech as [unintelligible]. Ignore non-speech sounds unless they obscure speech.
+"""

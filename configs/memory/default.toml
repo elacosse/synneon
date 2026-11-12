@@ -1,0 +1,6 @@
+[memory.default]
+user_id = "default"
+redis_url = "redis://localhost:6379/0"
+conversation_window = 20
+memory_window = 5
+conversation_ttl_days = 7
